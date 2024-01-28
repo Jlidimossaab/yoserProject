@@ -1,1 +1,5 @@
-<app-map></app-map>
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedCategoryId">
+    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+</select>
+
+<app-map [selectedCategoryId]="selectedCategoryId"></app-map>
