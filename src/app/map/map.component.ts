@@ -44,8 +44,6 @@ export class MapComponent implements OnInit {
       // Call your method with the new selectedCategoryId
       this.getMarkers(this.selectedCategoryId);
     }
-    let resultMarker = await this.getUserLocation();
-    this.getRoute(resultMarker);
   }
 
   private initializeMap(): void {
@@ -59,27 +57,30 @@ export class MapComponent implements OnInit {
     //this.map.dragging.disable();
   }
 
-  getRoute(marker:Marker){
+  async getRoute(desiredLocation:any) {
+    // Remove existing routing control if it exists
+    if (this.routingControl) {
+      this.map!.removeControl(this.routingControl);
+    }
+  
+    let marker = await this.getUserLocation();
     // Coordinates for waypoints within Nefza, Tunisia
-    const desiredLatitude = 36.973603980466855;
-    const desiredLongitude = 9.068908095359804;
-    console.log("markerlat"+marker.lat)
-    // Create a routing control
+  
+    // Create a new routing control
     this.routingControl = L.Routing.control({
       waypoints: [
         L.latLng(marker.lat!, marker.lon!),
-        L.latLng(desiredLatitude, desiredLongitude)
+        L.latLng(desiredLocation.lat, desiredLocation.lon),
       ],
       routeWhileDragging: false,
-      addWaypoints: false, 
+      addWaypoints: false,
       lineOptions: {
         styles: [{ color: '#242c81', weight: 2 }],
         extendToWaypoints: false,
-        missingRouteTolerance: 0
+        missingRouteTolerance: 0,
       },
     }).addTo(this.map!);
-    
-
+  
     this.map!.eachLayer((layer) => {
       if (layer instanceof L.Marker) {
         layer.dragging!.disable();
@@ -87,6 +88,7 @@ export class MapComponent implements OnInit {
       }
     });
   }
+  
 
   getMarkers(event: any) {
     // Clear existing markers
@@ -100,8 +102,13 @@ export class MapComponent implements OnInit {
       this.modelMarkers = result;
   
       for (const marker of this.modelMarkers!) {
-        const customLayer = L.marker([marker.lat, marker.lon], { icon: this.customIcon }).addTo(this.map!);
-        customLayer.bindPopup('Marker');
+        const customLayer = L.marker([marker.lat, marker.lon], { icon: this.customIcon })
+        .addTo(this.map!)
+        .bindPopup('Marker')
+        .on('click', () => {
+          this.getRoute(marker); // Call getRoute when marker is clicked
+        });
+        
       }
     });
   }
@@ -148,6 +155,23 @@ export class MapComponent implements OnInit {
     });
   }
   
+  async getMarkersOfMap() {
+    // You can customize the markers if needed, e.g., set an icon
+    const customIcon = L.icon({
+      iconUrl: 'assets/marker-icon-2x.png',
+      shadowUrl: 'assets/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+    });
+  
+    this.map!.eachLayer(function (layer) {
+      if (layer instanceof L.Marker) {
+        layer.dragging!.disable();
+        layer.setIcon(customIcon);
+      }
+    });
+  }
   
 
   
