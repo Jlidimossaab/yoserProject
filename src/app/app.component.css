@@ -1,0 +1,61 @@
+  .sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      background-color: #111;
+      padding-top: 20px;
+  }
+
+  .sidebar a {
+      padding: 8px 16px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #818181;
+      display: block;
+  }
+
+  .sidebar button {
+      padding: 8px 16px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+  }
+
+  .sidebar button:hover {
+      background-color: #45a049;
+  }
+
+  .sidebar-logo {
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      margin-bottom: 20px;
+  }
+
+  .login-logo {
+      text-align: center;
+      margin-top: 20px;
+  }
+/* your-component.component.css */
+
+/* Style the p-dialog directly using the provided classes */
+.p-dialog.custom-p-dialog {
+    width: 50vw;
+  }
+  
+  .p-dialog.custom-p-dialog .ui-dialog-content {
+    padding: 1.5rem;
+  }
+  
+  .p-dialog.custom-p-dialog .ui-dialog-titlebar {
+    background-color: #007BFF;
+    color: #ffffff;
+    border-bottom: 1px solid #0062cc;
+  }
+  
+  .p-dialog.custom-p-dialog .ui-dialog-footer {
+    text-align: right;
+  }
+  

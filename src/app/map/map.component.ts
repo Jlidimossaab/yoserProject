@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
-import { OpenRouteService } from '../service/map-service.service';
+import { OpenRouteService } from '../../services/map-service.service';
 import { MarkerService } from 'src/services/marker.service';
 import { Marker } from 'src/models/Marker';
 import { CategoryService } from 'src/services/category.service';
@@ -102,7 +102,7 @@ export class MapComponent implements OnInit {
       this.modelMarkers = result;
   
       for (const marker of this.modelMarkers!) {
-        const customLayer = L.marker([marker.lat, marker.lon], { icon: this.customIcon })
+        L.marker([marker.lat, marker.lon], { icon: this.customIcon })
         .addTo(this.map!)
         .bindPopup('Marker')
         .on('click', () => {
