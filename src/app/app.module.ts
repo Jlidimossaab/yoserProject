@@ -10,9 +10,16 @@ import { FormsModule } from '@angular/forms';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { LoginComponent } from './login/login.component';
 
+import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MenuComponent } from './menu/menu.component';
+import { AjoutCategorieComponent } from './ajout-categorie/ajout-categorie.component';
+import { AjoutLocationComponent } from './ajout-location/ajout-location.component';
+import { ConsulterCategorieComponent } from './consulter-categorie/consulter-categorie.component';
+import { ConsulterLocationComponent } from './consulter-location/consulter-location.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +27,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MapComponent,
     AdminHomeComponent,
     LoginComponent,
+    MenuComponent,
+    AjoutCategorieComponent,
+    AjoutLocationComponent,
+    ConsulterCategorieComponent,
+    ConsulterLocationComponent,
     
   ],
   imports: [
@@ -29,7 +41,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     DialogModule,
     BrowserAnimationsModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

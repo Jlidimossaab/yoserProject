@@ -2,7 +2,7 @@ export class User{
     username?:String
     password?:String
 
-    User(){
+    public constructor(){
         
     }
 }

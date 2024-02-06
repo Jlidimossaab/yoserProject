@@ -1,7 +1,8 @@
-import { Component, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { CategoryService } from 'src/services/category.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { LoginService } from 'src/services/login.service';
+import { User } from 'src/models/User';
 
 @Component({
   selector: 'app-root',
@@ -11,26 +12,24 @@ import { LoginService } from 'src/services/login.service';
 })
 export class AppComponent implements OnInit {
   categories: any[] = [];
-  selectedCategoryId: any;
-  display: boolean = false;
-  isloggedIn = false;
+  user?: User;
+  selectedCategoryId?: number;
 
   constructor(private categoryService: CategoryService,private primengConfig: PrimeNGConfig,public loginService: LoginService,) { }
   
   ngOnInit() {
-    this.loginService.getLoggedIn().subscribe((loggedIn) => {
-      if (loggedIn) {
-        // Close the dialog when the user is logged in
-        this.isloggedIn = loggedIn;
-        this.display = false;
-      }
-    });
 
+    // Subscribe to changes in the current user
+    this.loginService.currentUser.subscribe(user => {
+      this.user = user!;
+      // Perform any other actions based on the current user, if needed
+    });
     this.primengConfig.ripple = true;
     this.getAllCategory();
+    
   }
   ngOnChange(){
-    
+   
   }
   getAllCategory() {
     this.categoryService.getAllCategory().subscribe((response) => {
@@ -38,17 +37,7 @@ export class AppComponent implements OnInit {
     });
     console.log("categories:" + this.categories);
   }
-
-  onCategoryClick(categoryId: number) {
-    this.selectedCategoryId = categoryId;
-  }
-
-  showDialog() {
-    this.display = true;
-  }
-
-  logout() {
-    this.isloggedIn = false;
-    this.loginService.setLoggedIn(false);
+  handleCategoryId(event: any) {
+    this.selectedCategoryId = event;
   }
 }

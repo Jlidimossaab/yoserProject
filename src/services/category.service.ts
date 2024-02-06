@@ -29,4 +29,9 @@ export class CategoryService {
   createCategory(category: Category){
     this.http.get(environment.url +"/category/create" );
   }
+
+  deleteCategories(ids: number[]){
+    const params = { ids: ids.join(',') };
+    return this.http.delete(environment.url +"/category/delete",{params} );
+  }
 }

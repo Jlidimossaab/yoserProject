@@ -1,0 +1,20 @@
+<div class="mb-3">
+    <label for="categoryDropdown" class="form-label col-sm-3">Select Category:</label>
+    <div class="row">
+        <div class="col-sm-9">
+            <select id="categoryDropdown" class="form-select col-sm-9" [(ngModel)]="selectedCategoryId">
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <button pButton type="button" icon="pi pi-plus" (click)="onAddClick()"></button>
+        </div>
+    </div>
+</div>
+
+
+
+<app-map [selectedCategoryId]="selectedCategoryId" [isAddLocation]="addLocation" (display)="handleAddEvent($event)"></app-map>
+<p-dialog header="" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    ng-template
+</p-dialog>

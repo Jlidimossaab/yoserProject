@@ -21,15 +21,8 @@ export class MarkerService {
       )
   }
 
-  getAllMarker(id : Number): Observable<Marker[]> {
-    return this.http.get<Marker[]>(environment.url + "/marker/findAllByCategory/" +id )
-      .pipe(
-        map((response: Marker[]) => response),
-        catchError((error) => {
-          console.error('Error fetching markers:', error);
-          return [];
-        })
-      );
+  getLocationsByCategory(id : Number): Observable<Marker[]> {
+    return this.http.get<Marker[]>(environment.url + "/marker/findAllByCategory/" +id );
   }
 
   createMarker(marker: Marker){

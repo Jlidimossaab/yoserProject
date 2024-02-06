@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Table</title>
+</head>
+<body>
+
+<!--     <div class="panel">
+        <h2>Category Table</h2>
+        <button pButton type="button" icon="pi pi-plus" (click)="onAddClick()"></button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Numero</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let category of categories;let i=index">
+                    <td>{{category.id}}</td>
+                    <td>{{category.name}}</td>
+                    <td>
+                        <button pButton type="button" icon="pi pi-trash" (click)="onDeleteClick(i)"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-primary " (click)="submit()">Submit</button>
+            <button class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+        </div>       
+    </div> -->
+
+    <p-toast></p-toast>
+
+<div class="card">
+    <h5>Categories</h5>
+    <button pButton type="button" icon="pi pi-plus" (click)="onAddClick()"></button>
+    <p-table [value]="categories" dataKey="id" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:25%">number</th>
+                <th style="width:25%">Name</th>
+                <th style="width:25%">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-line let-i="index">
+            <tr>
+              
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="output">
+                            {{line.id}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="line.name">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{line.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="output">
+                            <button pButton type="button" icon="pi pi-trash" (click)="onDeleteClick(line)"></button>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div class="d-flex justify-content-end mt-4">
+        <button class="btn btn-primary " (click)="submit()">Submit</button>
+        <button class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+    </div> 
+</div>
+
+</body>
+</html>

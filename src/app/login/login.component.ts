@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Route, Router } from '@angular/router';
+import { User } from 'src/models/User';
 import { AuthService } from 'src/services/auth.service';
 import { LoginService } from 'src/services/login.service';
 
@@ -10,17 +12,17 @@ import { LoginService } from 'src/services/login.service';
 export class LoginComponent {
   username = '';
   password = '';
-
-  constructor(private authService: AuthService,private loginService: LoginService) {}
+  @Output() display = new EventEmitter();
+  constructor(private authService: AuthService,private loginService: LoginService,private router:Router) {}
 
   login(): void {
       this.authService.login(this.username, this.password).subscribe(
           (user) => {
               if (user) {
-                  // Authentication successful
-                  console.log('Login successful:', user);
+                  this.loginService.setCurrentUser(user);
                   this.loginService.setLoggedIn(true);
-                  // Redirect or perform other actions after successful login
+                  this.display.next(false);
+                  this.router.navigate([`/consulter_categorie`]);
               } else {
                   // Authentication failed
                   console.error('Invalid credentials');
