@@ -12,13 +12,7 @@ export class MarkerService {
   constructor(private http: HttpClient) { }
 
   getMarkerById(id: Number){
-    let marker: Marker;
-    this.http.get(environment.url +"/marker/findById/" + id)
-      .pipe(
-        map((response:Marker)=>{
-          marker = response;
-        })
-      )
+    this.http.get(environment.url +"/marker/findById/" + id);
   }
 
   getLocationsByCategory(id : Number): Observable<Marker[]> {
@@ -26,6 +20,6 @@ export class MarkerService {
   }
 
   createMarker(marker: Marker){
-    this.http.post(environment.url +"/marker/create",marker);
+    return this.http.post<Marker>(environment.url +"/marker/create",marker);
   }
 }

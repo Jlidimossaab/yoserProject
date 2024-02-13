@@ -7,7 +7,7 @@
             </select>
         </div>
         <div class="col-sm-3">
-            <button pButton type="button" icon="pi pi-plus" (click)="onAddClick()"></button>
+            <button pButton type="button" [icon]="!addLocation ? 'pi pi-plus' : 'pi pi-minus'" (click)="onAddClick()"></button>
         </div>
     </div>
 </div>
@@ -15,6 +15,24 @@
 
 
 <app-map [selectedCategoryId]="selectedCategoryId" [isAddLocation]="addLocation" (display)="handleAddEvent($event)"></app-map>
-<p-dialog header="" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
-    ng-template
+<p-dialog header="Confirm Location" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <input type="file" (change)="onFileChange($event)" accept="image/*" class="form-control mb-3">
+                <!-- Placeholder for the uploaded image -->
+                <div *ngIf="imageUrl" class="text-center mb-3">
+                    <img [src]="imageUrl" alt="Uploaded Image" class="img-thumbnail" style="max-width: 200px;">
+                </div>
+                <input type="text" placeholder="Latitude" [(ngModel)]="lat" class="form-control mb-3" disabled>
+                <input type="text" placeholder="Longitude" [(ngModel)]="lng" class="form-control mb-3" disabled>
+                <div class="text-center">
+                    <button pButton type="button" label="Submit" (click)="submitLocation()"
+                        class="btn btn-primary mr-2"></button>
+                    <button pButton type="button" label="Cancel" (click)="cancelLocation()"
+                        class="btn btn-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </p-dialog>

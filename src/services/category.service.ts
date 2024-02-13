@@ -12,7 +12,7 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getCategoryById(id: Number){
-    this.http.get(environment.url +"/category/findById/" + id);
+    return this.http.get(environment.url +"/category/findById/" + id);
   }
 
   getAllCategory(): Observable<Category[]>{

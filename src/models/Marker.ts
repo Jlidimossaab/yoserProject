@@ -1,7 +1,8 @@
-export class Marker{
-    
-    lat?:number;
-    lon?:number;
+import { Category } from "./Category";
 
-    public constructor(){};
+export class Marker {
+    lat?: number;
+    lon?: number;
+    category?: Category;
+    public constructor() { };
 }

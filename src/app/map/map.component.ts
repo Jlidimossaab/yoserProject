@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { OpenRouteService } from '../../services/map-service.service';
@@ -7,6 +7,7 @@ import { Marker } from 'src/models/Marker';
 import { CategoryService } from 'src/services/category.service';
 import { LoginService } from 'src/services/login.service';
 import { User } from 'src/models/User';
+import { ConsulterLocationComponent } from '../consulter-location/consulter-location.component';
 
 @Component({
   selector: 'app-map',
@@ -16,14 +17,14 @@ import { User } from 'src/models/User';
 export class MapComponent implements OnInit {
   map: L.Map | undefined;
   popup: L.Popup | undefined;
-  @Output() display = new EventEmitter<boolean>();
+  @Output() display = new EventEmitter<any>();
 
   routingControl?: L.Routing.Control;
   modelMarkers?: any[] = [];
   customIcon: any;
   @Input() isAddLocation?: boolean;
   @Input() selectedCategoryId: any;
-  constructor(private markerService: MarkerService, private loginService: LoginService) { }
+  constructor(private markerService: MarkerService, private openRouteService:OpenRouteService) { }
 
   ngOnInit(): void {
 
@@ -34,10 +35,15 @@ export class MapComponent implements OnInit {
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
     });
-
     if (!this.map) {
       this.initializeMap();
     }
+    this.openRouteService.mapInitializer.subscribe((initialize) => {
+      if(initialize){
+        this.getMarkers(this.selectedCategoryId);
+      }
+      
+    });
   }
   ngOnChanges(changes: SimpleChanges) {
     // Check if the selectedCategoryId has changed
@@ -144,7 +150,6 @@ export class MapComponent implements OnInit {
             const resultMarker = new Marker();
             resultMarker.lat = userCoordinates[0];
             resultMarker.lon = userCoordinates[1];
-            console.log("&&&&&&&&" + resultMarker.lat);
             resolve(resultMarker);
           },
           (error) => {
@@ -160,7 +165,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  async getMarkersOfMap() {
+  async () {
     // You can customize the markers if needed, e.g., set an icon
     const customIcon = L.icon({
       iconUrl: 'assets/marker-icon-2x.png',
@@ -180,15 +185,17 @@ export class MapComponent implements OnInit {
 
   addLocation() {
     if (this.isAddLocation) {
+      this.map?.getContainer().classList.add('map-cursor');
       // Attach event listeners for mouse movement and click
-      this.map!.on('mousemove', this.onMouseMove);
-      this.map!.on('mouseout', this.onMouseOut);
-      this.map!.on('click', this.onClick);
+      this.map?.on('mousemove', this.onMouseMove);
+      this.map?.on('mouseout', this.onMouseOut);
+      this.map?.on('click', this.onClick);
     } else {
+      this.map?.getContainer().classList.remove('map-cursor');
       // Remove event listeners if isAddLocation is false
-      this.map!.off('mousemove', this.onMouseMove);
-      this.map!.off('mouseout', this.onMouseOut);
-      this.map!.off('click', this.onClick);
+      this.map?.off('mousemove', this.onMouseMove);
+      this.map?.off('mouseout', this.onMouseOut);
+      this.map?.off('click', this.onClick);
       // Close the popup if it exists
       if (this.popup) {
         this.map?.closePopup(this.popup);
@@ -196,12 +203,12 @@ export class MapComponent implements OnInit {
       }
     }
   }
-  
+
   onMouseMove = (e: L.LeafletMouseEvent) => {
     const latlng = e.latlng;
     const lat = latlng.lat.toFixed(6);
     const lng = latlng.lng.toFixed(6);
-  
+
     if (!this.popup) {
       this.popup = L.popup()
         .setLatLng(latlng)
@@ -211,17 +218,22 @@ export class MapComponent implements OnInit {
       this.popup.setLatLng(latlng).setContent(`Latitude: ${lat}<br>Longitude: ${lng}`);
     }
   };
-  
+
   onMouseOut = () => {
     if (this.popup) {
       this.map?.closePopup(this.popup);
       this.popup = undefined;
     }
   };
-  
+
   onClick = (e: L.LeafletMouseEvent) => {
-    this.display.next(true);
+    let obj = {
+      lat: e.latlng.lat.toFixed(6),
+      lng: e.latlng.lng.toFixed(6),
+      display: true
+    }
+    this.display.emit(obj);
   };
-  
+
 
 }
