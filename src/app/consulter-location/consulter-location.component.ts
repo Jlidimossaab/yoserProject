@@ -79,17 +79,13 @@ export class ConsulterLocationComponent implements OnInit {
             () => {
               this.openRouteService.setMapInitializer(true);
               this.display=false;
-              console.log("successfully saved")
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'marker is added Successfully!' });
             },
             (error) => {
-              console.error('Error creating marker:', error);
-              // Handle error
             }
           );
         },
         (error) => {
-          console.error('Error fetching category:', error);
-          // Handle error
         }
       );
     }

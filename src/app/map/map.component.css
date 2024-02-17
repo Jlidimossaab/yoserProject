@@ -1,3 +1,40 @@
 .map-cursor {
     cursor: url('../../assets/m2.png') 6 6, auto;
 }
+
+ .ui-dialog {
+    width: 50vw;
+}
+
+ .dialog-container {
+    padding: 1rem;
+}
+
+ .dialog-content {
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ .dialog-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+ .dialog-body {
+    padding: 1rem;
+}
+
+.dialog-footer {
+    padding: 1rem;
+    text-align: right;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.dialog-footer button {
+    margin-left: 0.5rem;
+}

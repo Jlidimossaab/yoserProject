@@ -40,7 +40,9 @@ export class MenuComponent implements OnInit{
     this.loginService.clearCurrentUser();
     this.loginService.setCurrentUser(null);
     this.loginService.setLoggedIn(false);
-    this.router.navigate([`/`]);
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 
   showDialog() {

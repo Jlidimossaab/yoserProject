@@ -3,18 +3,20 @@
 <div (ngModelChange)="getMarkers(selectedCategoryId)"></div>
 <p-toast></p-toast>
 
-<p-dialog header="Confirm Location delete" [(visible)]="deleteDisplay" [style]="{width: '50vw'}" [baseZIndex]="10000">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+<p-dialog [(visible)]="deleteDisplay" [baseZIndex]="10000">
+    <div class="dialog-container">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                Confirm Location delete
+            </div>
+            <div class="dialog-body">
                 <p>Are you sure you want to delete this location?</p>
-                <div class="text-center">
-                    <button pButton type="button" label="Submit" (click)="submitDelete()"
-                        class="btn btn-primary mr-2"></button>
-                    <button pButton type="button" label="Cancel" (click)="cancelDelete()"
-                        class="btn btn-secondary"></button>
-                </div>
+            </div>
+            <div class="dialog-footer">
+                <button pButton type="button" label="Submit" (click)="submitDelete()" class="btn btn-primary"></button>
+                <button pButton type="button" label="Cancel" (click)="cancelDelete()" class="btn btn-secondary"></button>
             </div>
         </div>
     </div>
 </p-dialog>
+

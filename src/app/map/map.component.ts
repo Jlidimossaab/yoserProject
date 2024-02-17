@@ -45,7 +45,7 @@ export class MapComponent implements OnInit {
     }
     this.openRouteService.mapInitializer.subscribe((initialize) => {
       if (initialize) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Login Successful!' });
+
         this.getMarkers(this.selectedCategoryId);
       }
 
@@ -119,11 +119,12 @@ export class MapComponent implements OnInit {
 
       for (const marker of this.modelMarkers!) {
         this.locationToDelete = marker;
-        this.markerToDelete = L.marker([marker.lat, marker.lon], { icon: this.customIcon })
+        const newMarker = L.marker([marker.lat, marker.lon], { icon: this.customIcon })
           .addTo(this.map!)
           .bindPopup('Marker')
           .on('click', (event) => { // Handle click event
             if (this.isDeleteLocation) {
+              this.markerToDelete= newMarker;
               this.deleteDisplay = true;
               return;
             } else {
@@ -177,23 +178,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  async() {
-    // You can customize the markers if needed, e.g., set an icon
-    const customIcon = L.icon({
-      iconUrl: 'assets/marker-icon-2x.png',
-      shadowUrl: 'assets/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-    });
 
-    this.map!.eachLayer(function (layer) {
-      if (layer instanceof L.Marker) {
-        layer.dragging!.disable();
-        layer.setIcon(customIcon);
-      }
-    });
-  }
 
   addLocation() {
     if (this.isAddLocation) {
@@ -250,6 +235,7 @@ export class MapComponent implements OnInit {
   submitDelete(){
     this.markerService.deleteMarker(this.locationToDelete!.id!);
     this.map!.removeLayer(this.markerToDelete);
+    window.location.reload;
     this.deleteDisplay = false;
   }
   cancelDelete(){
