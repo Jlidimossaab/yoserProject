@@ -27,7 +27,7 @@ export class CategoryService {
   }
 
   createCategory(category: Category){
-    this.http.get(environment.url +"/category/create" );
+    return this.http.post(environment.url +"/category/create", category );
   }
 
   deleteCategories(ids: number[]){

@@ -8,6 +8,7 @@ import { CategoryService } from 'src/services/category.service';
 import { LoginService } from 'src/services/login.service';
 import { User } from 'src/models/User';
 import { ConsulterLocationComponent } from '../consulter-location/consulter-location.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-map',
@@ -18,13 +19,17 @@ export class MapComponent implements OnInit {
   map: L.Map | undefined;
   popup: L.Popup | undefined;
   @Output() display = new EventEmitter<any>();
+  deleteDisplay = false;
+  markerToDelete? : any;
+  locationToDelete? : Marker;
 
   routingControl?: L.Routing.Control;
   modelMarkers?: any[] = [];
   customIcon: any;
+  @Input() isDeleteLocation?: boolean;
   @Input() isAddLocation?: boolean;
   @Input() selectedCategoryId: any;
-  constructor(private markerService: MarkerService, private openRouteService:OpenRouteService) { }
+  constructor(private markerService: MarkerService, private openRouteService: OpenRouteService, private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -39,10 +44,11 @@ export class MapComponent implements OnInit {
       this.initializeMap();
     }
     this.openRouteService.mapInitializer.subscribe((initialize) => {
-      if(initialize){
+      if (initialize) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Login Successful!' });
         this.getMarkers(this.selectedCategoryId);
       }
-      
+
     });
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -112,11 +118,17 @@ export class MapComponent implements OnInit {
       this.modelMarkers = result;
 
       for (const marker of this.modelMarkers!) {
-        L.marker([marker.lat, marker.lon], { icon: this.customIcon })
+        this.locationToDelete = marker;
+        this.markerToDelete = L.marker([marker.lat, marker.lon], { icon: this.customIcon })
           .addTo(this.map!)
           .bindPopup('Marker')
-          .on('click', () => {
-            this.getRoute(marker); // Call getRoute when marker is clicked
+          .on('click', (event) => { // Handle click event
+            if (this.isDeleteLocation) {
+              this.deleteDisplay = true;
+              return;
+            } else {
+              this.getRoute(marker);
+            }
           });
 
       }
@@ -165,7 +177,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  async () {
+  async() {
     // You can customize the markers if needed, e.g., set an icon
     const customIcon = L.icon({
       iconUrl: 'assets/marker-icon-2x.png',
@@ -235,5 +247,12 @@ export class MapComponent implements OnInit {
     this.display.emit(obj);
   };
 
-
+  submitDelete(){
+    this.markerService.deleteMarker(this.locationToDelete!.id!);
+    this.map!.removeLayer(this.markerToDelete);
+    this.deleteDisplay = false;
+  }
+  cancelDelete(){
+    this.deleteDisplay = false;
+  }
 }

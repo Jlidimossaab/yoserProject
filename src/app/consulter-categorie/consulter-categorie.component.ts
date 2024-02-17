@@ -23,24 +23,28 @@ export class ConsulterCategorieComponent {
 
   ngOnInit(): void {
     this.getAllCategory();
-    console.log("categlkja =><" + this.categories);
+    console.log("categlkja =><");
+    console.log(this.categories);
   }
 
   getAllCategory() {
     this.categoryService.getAllCategory().subscribe((response) => {
       this.categories = response;
-      console.log("categories:" + this.categories);
+      console.log("categories:");
+      console.log(this.categories);
     });
   }
 
   onAddClick() {
     // Add a new category
-    const newCategory = new Category(); 
+    const newCategory = new Category();
     this.categories.push(newCategory);
     this.onAddCategories.push(newCategory);
   }
 
   onDeleteClick(category: any) {
+    console.log("on deletee =>")
+    console.log(category);
     // Delete a category
     const index = this.categories.indexOf(category);
     if (index !== -1) {
@@ -55,7 +59,7 @@ export class ConsulterCategorieComponent {
       }
     }
   }
-  
+
   cancel() {
     this.onDeleteCategories = [];
     this.getAllCategory();
@@ -64,35 +68,41 @@ export class ConsulterCategorieComponent {
     this.onAddCategories.forEach(element => {
       console.log("adeed cat: " + element.name);
     });
-    
-    let ids: number[] = [];
-    this.onDeleteCategories.forEach(category => ids.push(category.id!));
-    if (!this.hasLocations(ids)) {
-      console.log("ids=>" + ids);
-      this.categoryService.deleteCategories(ids).subscribe(
-        (response) => {
-          console.log('Delete request successful', response);
-        },
+
+    //delete categories
+    let idsToDelete: number[] = [];
+    this.onDeleteCategories.forEach(category => idsToDelete.push(category.id!));
+    if (idsToDelete.length > 0) {
+      console.log("idsToDelete =>")
+      console.log(idsToDelete)
+      this.categoryService.deleteCategories(idsToDelete).subscribe(
+        (response) => {},
         (error) => {
-          console.error('Error sending delete request', error);
+          if(error.status ==200){
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category is successfully deleted' });
+          }else {
+            this.getAllCategory();
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Category already has locations' });
+          }
+          
         }
       );
-    } else {
-      console.log('one of the categories already has a location');
     }
+    //add categories
+    this.onAddCategories.forEach((cat) => {
+      this.categoryService.createCategory(cat).subscribe((res) => {
+        if (res) {
+          console.log("after submit");
+          console.log(this.categories);
+          this.categoryService.getAllCategory().subscribe((res)=>{
+            this.categories = res;
+          });
+          this.onAddCategories = [];
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category is successfully added' });
+        }
+      })
+    })
 
-  }
-  hasLocations(ids: number[]): Observable<boolean> {
-    const observables = ids.map(id =>
-      this.markerService.getLocationsByCategory(id).pipe(
-        map(result => result !== null),
-        catchError(() => of(false)) // Handle errors and return false
-      )
-    );
-
-    return forkJoin(observables).pipe(
-      map(results => results.some(result => result))
-    );
   }
 
   onRowEditInit(product: Category) {
@@ -100,8 +110,8 @@ export class ConsulterCategorieComponent {
   }
 
   onRowEditSave(product: Category) {
-      delete this.clonedProducts[product.id!];
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
+    delete this.clonedProducts[product.id!];
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
   }
 
   onRowEditCancel(product: Category, index: number) {

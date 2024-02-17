@@ -20,6 +20,7 @@ import { AjoutCategorieComponent } from './ajout-categorie/ajout-categorie.compo
 import { AjoutLocationComponent } from './ajout-location/ajout-location.component';
 import { ConsulterCategorieComponent } from './consulter-categorie/consulter-categorie.component';
 import { ConsulterLocationComponent } from './consulter-location/consulter-location.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -43,9 +44,10 @@ import { ConsulterLocationComponent } from './consulter-location/consulter-locat
     BrowserAnimationsModule,
     ButtonModule,
     ToastModule,
-    TableModule
+    TableModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

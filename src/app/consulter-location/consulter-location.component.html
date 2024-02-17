@@ -1,20 +1,23 @@
-<div class="mb-3">
+<div class="mb-3 ">
     <label for="categoryDropdown" class="form-label col-sm-3">Select Category:</label>
-    <div class="row">
-        <div class="col-sm-9">
+    <div class="row align-items-center">
+        <div class="col-sm-3">
             <select id="categoryDropdown" class="form-select col-sm-9" [(ngModel)]="selectedCategoryId">
                 <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
             </select>
         </div>
         <div class="col-sm-3">
-            <button pButton type="button" [icon]="!addLocation ? 'pi pi-plus' : 'pi pi-minus'" (click)="onAddClick()"></button>
+            <p-toast></p-toast>
+            <button pButton type="button" [icon]="!addLocation ? 'pi pi-plus' : 'pi pi-minus'" (click)="onAddClick()" class="p-button-sm"></button>
+            <button pButton type="button" [icon]="!deleteLocation ? 'pi pi-trash' : 'pi pi-times'" (click)="onDeleteClick()" class="p-button-sm" style="margin-left: 5px;"></button>
         </div>
     </div>
 </div>
 
 
 
-<app-map [selectedCategoryId]="selectedCategoryId" [isAddLocation]="addLocation" (display)="handleAddEvent($event)"></app-map>
+
+<app-map [selectedCategoryId]="selectedCategoryId" [isAddLocation]="addLocation" [isDeleteLocation]="deleteLocation" (display)="handleAddEvent($event)"></app-map>
 <p-dialog header="Confirm Location" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
     <div class="container">
         <div class="row justify-content-center">

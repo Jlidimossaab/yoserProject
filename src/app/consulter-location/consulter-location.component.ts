@@ -5,6 +5,7 @@ import { CategoryService } from 'src/services/category.service';
 import { OpenRouteService } from 'src/services/map-service.service';
 import { MarkerService } from 'src/services/marker.service';
 import { MapComponent } from '../map/map.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-consulter-location',
@@ -15,12 +16,13 @@ export class ConsulterLocationComponent implements OnInit {
   selectedCategoryId: any;
   categories: any[] = [];
   addLocation = false;
+  deleteLocation = false;
   display = false;
   imageUrl: any;
   lat: any;
   lng: any;
 
-  constructor(private categoryService: CategoryService, private markerService: MarkerService,private openRouteService: OpenRouteService) {
+  constructor(private categoryService: CategoryService, private markerService: MarkerService,private openRouteService: OpenRouteService,private messageService: MessageService) {
 
   }
   ngOnInit(): void {
@@ -36,7 +38,21 @@ export class ConsulterLocationComponent implements OnInit {
   }
 
   onAddClick() {
-    this.addLocation = !this.addLocation;
+    if(!this.deleteLocation){
+      this.addLocation = !this.addLocation;
+    }else{
+      this.messageService.add({severity:'error', summary: 'Error', detail: 'You\'re currently trying to delete a location'});
+    }
+    
+  }
+
+  onDeleteClick(){
+    if(!this.addLocation){
+      this.deleteLocation = !this.deleteLocation;
+    }else{
+      this.messageService.add({severity:'error', summary: 'Error', detail: 'You\'re currently trying to add a location'});
+    }
+
   }
 
   handleAddEvent(event: any) {
