@@ -38,3 +38,6 @@
 .dialog-footer button {
     margin-left: 0.5rem;
 }
+.leaflet-routing-container {
+    display: none;
+}

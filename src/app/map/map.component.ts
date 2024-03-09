@@ -20,8 +20,9 @@ export class MapComponent implements OnInit {
   popup: L.Popup | undefined;
   @Output() display = new EventEmitter<any>();
   deleteDisplay = false;
-  markerToDelete? : any;
-  locationToDelete? : Marker;
+  markerToDelete?: any;
+  locationToDelete?: Marker;
+  routeMessage?: any;
 
   routingControl?: L.Routing.Control;
   modelMarkers?: any[] = [];
@@ -72,6 +73,7 @@ export class MapComponent implements OnInit {
     //this.map.dragging.disable();
   }
 
+
   async getRoute(desiredLocation: any) {
     // Remove existing routing control if it exists
     if (this.routingControl) {
@@ -79,9 +81,7 @@ export class MapComponent implements OnInit {
     }
 
     let marker = await this.getUserLocation();
-    // Coordinates for waypoints within Nefza, Tunisia
 
-    // Create a new routing control
     this.routingControl = L.Routing.control({
       waypoints: [
         L.latLng(marker.lat!, marker.lon!),
@@ -90,11 +90,23 @@ export class MapComponent implements OnInit {
       routeWhileDragging: false,
       addWaypoints: false,
       lineOptions: {
-        styles: [{ color: '#242c81', weight: 2 }],
+        styles: [{ color: 'green', weight: 3 }],
         extendToWaypoints: false,
         missingRouteTolerance: 0,
       },
+      formatter: undefined
     }).addTo(this.map!);
+
+    this.routingControl.on('routesfound', (event: any) => {
+      const routes = event.routes;
+      if (routes && routes.length > 0) {
+        const route = routes[0].summary;
+        const routeMessage = `${route.totalDistance} meters, ${route.totalTime} seconds`;
+        console.log('Route Message:', routeMessage);
+        // Store the route message in a class variable if needed
+        this.routeMessage = routeMessage;
+      }
+    });
 
     this.map!.eachLayer((layer) => {
       if (layer instanceof L.Marker) {
@@ -104,6 +116,7 @@ export class MapComponent implements OnInit {
     });
     this.map!.invalidateSize();
   }
+
 
 
   getMarkers(event: any) {
@@ -124,7 +137,7 @@ export class MapComponent implements OnInit {
           .bindPopup('Marker')
           .on('click', (event) => { // Handle click event
             if (this.isDeleteLocation) {
-              this.markerToDelete= newMarker;
+              this.markerToDelete = newMarker;
               this.deleteDisplay = true;
               return;
             } else {
@@ -232,13 +245,13 @@ export class MapComponent implements OnInit {
     this.display.emit(obj);
   };
 
-  submitDelete(){
+  submitDelete() {
     this.markerService.deleteMarker(this.locationToDelete!.id!);
     this.map!.removeLayer(this.markerToDelete);
     window.location.reload;
     this.deleteDisplay = false;
   }
-  cancelDelete(){
+  cancelDelete() {
     this.deleteDisplay = false;
   }
 }

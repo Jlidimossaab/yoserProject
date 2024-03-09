@@ -6,8 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent {
-
-  selectedCategoryId=1;
   constructor(){
     
   }
