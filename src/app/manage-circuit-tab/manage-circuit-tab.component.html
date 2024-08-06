@@ -1,0 +1,96 @@
+<p-toast></p-toast>
+<h5>Add Circuit</h5>
+<div class="row align-items-center">
+    <div class="col-sm-3">
+        <p-dropdown [style]="{'minWidth':'100%'}" [options]="categories!" [(ngModel)]="selectedCategoryId"
+            optionLabel="name" [showClear]="true" placeholder="Select the Location Category">
+            <ng-template pTemplate="selectedItem" let-category>
+                <div>{{ category.name }}</div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="col-sm-3">
+        <p-dropdown [style]="{'minWidth':'100%'}" [options]="levels!" [(ngModel)]="selecttedLevel" optionLabel="label"
+            [showClear]="true" placeholder="Select the level of difficulties">
+            <ng-template pTemplate="selectedItem" let-category>
+                <div>{{ category.label }}</div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="col-sm-3">
+        <button pButton type="button" (click)="onAddClick()">
+            <i class="pi pi-plus"></i></button>
+        <button pButton type="button" class="btn btn-danger" (click)="removeMarker()">
+            <i class="pi pi-trash"></i>
+        </button>
+    </div>
+</div>
+
+<p-table [value]="markerList" dataKey="id">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-marker let-rowIndex="rowIndex">
+        <tr>
+            <td><input type="number" [(ngModel)]="markerList[rowIndex].lat"></td>
+            <td><input type="number" [(ngModel)]="markerList[rowIndex].lon"></td>
+            <td><p-checkbox [(ngModel)]="markerList[rowIndex].isVisible"></p-checkbox></td>
+            <td><p-checkbox [(ngModel)]="markerList[rowIndex].isStartMarker"></p-checkbox></td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<ng-container *ngIf="selecttedLevel!=undefined && selectedCategoryId!=undefined && markerList.length>=2">
+
+    <div class="row justify-content-end m-3 ">
+        <div class="col-auto">
+            <button pButton type="button" label="Submit" (click)="submitLocationPopup()"
+                class="btn btn-primary mr-2"></button>
+        </div>
+        <div class="col-auto">
+            <button pButton type="button" label="Cancel" (click)="cancelLocationPopup()" class="btn btn-secondary"></button>
+        </div>
+    </div>
+</ng-container>
+
+<p-dialog header="Confirm Circuit" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <p>Please add an image to the destinationLocation and a description of it</p>
+                <input type="file" (change)="onFileChange($event)" accept="image/*" class="form-control mb-3">
+                <!-- Placeholder for the uploaded image -->
+                <div *ngIf="imageUrl" class="text-center mb-3">
+                    <img [src]="imageUrl" alt="Uploaded Image" class="img-thumbnail" style="max-width: 200px;">
+                </div>
+                <ng-container *ngIf="markerList && markerList.length > 0">
+                    <input type="text" placeholder="name"
+                        [(ngModel)]="markerList![markerList!.length - 1]!.name"
+                        class="form-control mb-3">
+
+                    <input type="text" placeholder="Latitude"
+                        [(ngModel)]="markerList![markerList!.length - 1]!.lat"
+                        class="form-control mb-3" disabled>
+                    <input type="text" placeholder="Longitude"
+                        [(ngModel)]="markerList![markerList!.length - 1]!.lon"
+                        class="form-control mb-3" disabled>
+                </ng-container>
+                
+                <textarea class="form-control" rows="3" placeholder="Enter description..."></textarea>
+                <div class="d-flex justify-content-end mb-3">
+                    <button pButton type="button" label="Submit" (click)="submitCircuit()"
+                        class="btn btn-primary"></button> <!-- Add padding to all sides -->
+                    <button pButton type="button" label="Cancel" (click)="cancelLocationPopup()"
+                        class="btn btn-secondary"></button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</p-dialog>

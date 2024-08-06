@@ -2,21 +2,21 @@
     cursor: url('../../assets/m2.png') 6 6, auto;
 }
 
- .ui-dialog {
+.ui-dialog {
     width: 50vw;
 }
 
- .dialog-container {
+.dialog-container {
     padding: 1rem;
 }
 
- .dialog-content {
+.dialog-content {
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
- .dialog-header {
+.dialog-header {
     background-color: #007bff;
     color: #fff;
     padding: 1rem;
@@ -24,7 +24,7 @@
     border-top-right-radius: 5px;
 }
 
- .dialog-body {
+.dialog-body {
     padding: 1rem;
 }
 
@@ -38,6 +38,26 @@
 .dialog-footer button {
     margin-left: 0.5rem;
 }
+
 .leaflet-routing-container {
     display: none;
 }
+  
+.custom-div-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px; /* Adjust the font size as needed */
+  }
+  
+  .custom-div-icon img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .marker-name {
+    margin-top: 5px; /* Adjust the margin as needed */
+  }
+  

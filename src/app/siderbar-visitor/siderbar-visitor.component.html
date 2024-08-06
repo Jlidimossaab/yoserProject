@@ -1,0 +1,21 @@
+<div class="container-fluid vh-70">
+
+    <div class="row">
+        <div class="col-md-3">
+            <p-dropdown [style]="{'minWidth':'100%'}" [options]="destinations!" [(ngModel)]="selectedDestination"
+                optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Destination" (ngModelChange)="onChangeSelection($event)"  [style]="{ 'width': '180px', 'min-width': '100%' }">
+                <ng-template pTemplate="selectedItem" let-destination>
+                    <div>{{ destination.name }}</div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+    </div>
+   
+    <div class="row mt-3">
+        <hr style="width: 100%; margin-top: 30px;margin-bottom: 30px;   ">
+    </div>
+    <ng-container *ngIf="selectedDestination != null ">
+        <app-marker-description [marker]="selectedDestination!"></app-marker-description>
+    </ng-container>
+    
+</div>

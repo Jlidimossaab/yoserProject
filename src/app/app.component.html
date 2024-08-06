@@ -1,17 +1,38 @@
 <div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary bg-gradient" style="display: flex; flex-direction: column;">
-            <app-menu [categories]="categories" (selectedCategoryId)="handleCategoryId($event)"></app-menu>
+    <div class="row">
+        <div class="col-md-3 col-xl-2 bg-info">
+            <!-- <app-menu [categories]="categories" (selectedCategoryId)="handleCategoryId($event)"></app-menu> -->
+            <div class="vh-30">
+                <ng-container *ngIf="user == null; else loggedInTemplate">
+                    <div class="text-end">
+                        <a class="btn bg-primary" (click)="showDialog()">Sign In</a>
+                    </div>
+                    <app-siderbar-visitor [categories]="categories" [destinations]="destinations" (selectionChange)="handleDestinationChanges($event)" [selectedDestinationChange]="selectedDestinationChange"></app-siderbar-visitor>
+                </ng-container>
+                <ng-template #loggedInTemplate>
+                    <div class="text-end">
+                        <a class="btn bg-primary" (click)="logout()">Sign Out</a>
+                    </div>
+                    <app-siderbar-admin></app-siderbar-admin>
+                </ng-template>
+            </div>
         </div>
-        <div class="col py-3">
+        <div class="col-md">
+            <ng-container *ngIf="user==null">
+                <app-menu [categories]="categories" (selectedCategoryId)="handleCategoryId($event)" (destinations)="handleDestinations($event)"></app-menu>
+            </ng-container>
+            
             <ng-container *ngIf="user==null;else adminHome">
-                <app-map [selectedCategoryId]="selectedCategoryId"></app-map>
+                <app-map [selectedCategoryId]="selectedCategoryId"[isAddLocation]="false" [selectedMarkerDestination]="selectedDestination" (selectedMarkerDestinationChange)="handleSelectedDestinationChange($event)"></app-map>
                 <router-outlet></router-outlet>
             </ng-container>
             <ng-template #adminHome>
-                <app-admin-home></app-admin-home>
                 <router-outlet></router-outlet>
             </ng-template>
         </div>
     </div>
 </div>
+
+<p-dialog header="Sign In" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <app-login (display)="onLoginHandle($event)"></app-login>
+</p-dialog>

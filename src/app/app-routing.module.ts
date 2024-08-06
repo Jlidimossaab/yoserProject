@@ -5,9 +5,11 @@ import { AjoutCategorieComponent } from './ajout-categorie/ajout-categorie.compo
 import { ConsulterCategorieComponent } from './consulter-categorie/consulter-categorie.component';
 import { ConsulterLocationComponent } from './consulter-location/consulter-location.component';
 import { AjoutLocationComponent } from './ajout-location/ajout-location.component';
+import { ManageCircuitTabComponent } from './manage-circuit-tab/manage-circuit-tab.component';
 
 const routes: Routes = [
   { path: 'adminHome', component: AdminHomeComponent },
+  { path: 'manage_circuit_tab', component: ManageCircuitTabComponent },
   { path: 'ajout_categorie', component: AjoutCategorieComponent },
   { path: 'ajout_location', component: AjoutLocationComponent },
   { path: 'consulter_categorie', component: ConsulterCategorieComponent },

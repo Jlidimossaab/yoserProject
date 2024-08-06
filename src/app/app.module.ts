@@ -21,6 +21,11 @@ import { AjoutLocationComponent } from './ajout-location/ajout-location.componen
 import { ConsulterCategorieComponent } from './consulter-categorie/consulter-categorie.component';
 import { ConsulterLocationComponent } from './consulter-location/consulter-location.component';
 import { MessageService } from 'primeng/api';
+import { SiderbarVisitorComponent } from './siderbar-visitor/siderbar-visitor.component';
+import { SiderbarAdminComponent } from './siderbar-admin/siderbar-admin.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { ManageCircuitTabComponent } from './manage-circuit-tab/manage-circuit-tab.component';
+import { MarkerDescriptionComponent } from './marker-description/marker-description.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +38,14 @@ import { MessageService } from 'primeng/api';
     AjoutLocationComponent,
     ConsulterCategorieComponent,
     ConsulterLocationComponent,
+    SiderbarVisitorComponent,
+    SiderbarAdminComponent,
+    ManageCircuitTabComponent,
+    MarkerDescriptionComponent,
     
   ],
   imports: [
+    DropdownModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

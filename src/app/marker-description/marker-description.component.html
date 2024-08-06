@@ -1,0 +1,9 @@
+
+<div *ngIf="markerImage">
+  <!-- Display the image if imageUrl is defined -->
+  <img [src]="markerImage" alt="Marker Image"  class="marker-image">
+</div>
+
+<ng-container *ngIf="marker.description !== null">
+  <p>{{ marker.description }}</p>
+</ng-container>

@@ -3,6 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "paths":{
+      "@maptiler/leaflet-maptilersdk": [
+        "node_modules/@maptiler/leaflet-maptilersdk/dist/leaflet-maptilersdk.js"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,

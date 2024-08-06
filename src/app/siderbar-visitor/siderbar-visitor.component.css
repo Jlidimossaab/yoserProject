@@ -1,0 +1,40 @@
+/* Style for container */
+.container-fluid {
+    padding: 20px;
+}
+
+/* Style for form groups */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Style for select elements */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Hover and focus style for select elements */
+.form-control:hover, .form-control:focus {
+    border-color: #007bff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
+/*  dropDown */
+.p-dropdown-panel {
+  left: 0 !important;
+  width: 300px;
+  max-width: 100% !important;
+}
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item {
+  white-space: inherit;
+}
+/* end drop down */

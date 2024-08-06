@@ -1,13 +1,7 @@
-.cursor-pointer {
-    cursor: pointer;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1; /* This will make the <ul> take up remaining vertical space */
-  }
-  a {
-    color: inherit; /* Or specify the color you want */
+.body{
+  height: 800px;
+}
+.btn {
+  border-radius: 0;
+  /* Remove rounded corners */
 }

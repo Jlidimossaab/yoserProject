@@ -1,0 +1,5 @@
+.marker-image {
+    max-width: 100%;
+    min-width: 100%; /* Constrain the image to a maximum width */
+    height: auto; /* Allow the height to adjust proportionally based on the width */
+  }
